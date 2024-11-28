@@ -1,0 +1,13 @@
+.text_color {
+  color: #f60;
+  font-weight: bold;
+  font-size: 3vw;
+}
+
+img {
+  height: 45%;
+}
+
+body {
+  overflow: hidden;
+}
