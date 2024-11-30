@@ -1,0 +1,54 @@
+@import "test.css";
+.container {
+  width: 50%;
+  height: 50vh;
+  background-color: #f0f0f0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.container #header {
+  color: #f00;
+}
+.container #header::before {
+  content: 'Header-before';
+}
+.container #header::after {
+  content: 'Header-after';
+}
+.container #header > .navigation {
+  font-size: 12px;
+}
+.container #header > .navigation .abc {
+  color: blue;
+}
+.container #header .logo {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+.boxOne {
+  color: #fff;
+  padding: 0 30px;
+  margin-bottom: 5px;
+  background-color: #f00;
+}
+.boxTwo {
+  color: #fff;
+  padding: 0 30px;
+  margin-bottom: 5px;
+  background-color: #990000;
+}
+.boxThree {
+  color: #fff;
+  padding: 0 30px;
+  margin-bottom: 5px;
+  background-color: #660000;
+}
+.boxFour {
+  color: #fff;
+  padding: 0 30px;
+  margin-bottom: 5px;
+  background-color: #330000;
+}

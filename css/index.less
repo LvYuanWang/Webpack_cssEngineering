@@ -1,0 +1,66 @@
+@import "./common";
+@import "./var";
+@import "./test.css";
+
+// 主题样式文件(当样式冲突时, 以最后导入的样式会覆盖前面的样式)
+@import "./theme";
+
+.container {
+  width: @width;
+  height: @height;
+  background-color: #f0f0f0;
+  .center(fixed);
+
+  #header {
+    color: if(iscolor(@color), @color, black);
+
+    &::before {
+      content: 'Header-before';
+    }
+
+    &::after {
+      content: 'Header-after';
+    }
+
+    >.navigation {
+      font-size: 12px;
+
+      .abc {
+        color: blue;
+      }
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+  }
+}
+
+// 颜色加深函数
+.boxOtherStyle() {
+  color: #fff;
+  padding: 0 30px;
+  margin-bottom: 5px;
+}
+
+.boxOne {
+  .boxOtherStyle();
+  background-color: @color;
+}
+
+.boxTwo {
+  .boxOtherStyle();
+  background-color: darken(@color, 20%);
+}
+
+.boxThree {
+  .boxOtherStyle();
+  background-color: darken(@color, 30%);
+}
+
+.boxFour {
+  .boxOtherStyle();
+  background-color: darken(@color, 40%);
+}
