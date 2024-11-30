@@ -1,24 +1,84 @@
-# BEM
+# CSS预编译器 {ignore}
 
-BEM是一套针对css类样式的命名方法。
+## 基本原理
 
-> 其他命名方法还有：OOCSS、AMCSS、SMACSS等等
+编写css时，受限于css语言本身，常常难以处理一些问题：
 
-BEM全称是：**B**lock **E**lement **M**odifier
+- 重复的样式值：例如常用颜色、常用尺寸
+- 重复的代码段：例如绝对定位居中、清除浮动
+- 重复的嵌套书写
 
-一个完整的BEM类名：block__element_modifier，例如：```banner__dot_selected```，可以表示：轮播图中，处于选中状态的小圆点
+由于官方迟迟不对css语言本身做出改进，一些第三方机构开始想办法来解决这些问题
 
-![](assets/2020-01-31-09-53-31.png)
+其中一种方案，便是预编译器
 
-三个部分的具体含义为：
+预编译器的原理很简单，即使用一种更加优雅的方式来书写样式代码，通过一个编译器，将其转换为可被浏览器识别的传统css代码
 
-- **Block**：页面中的大区域，表示最顶级的划分，例如：轮播图(```banner```)、布局(```layout```)、文章(```article```)等等
-- **element**：区域中的组成部分，例如：轮播图中的横幅图片(```banner__img```)、轮播图中的容器（```banner__container```）、布局中的头部(```layout__header```)、文章中的标题(```article_title```)
-- **modifier**：可选。通常表示状态，例如：处于展开状态的布局左边栏（```layout__left_expand```）、处于选中状态的轮播图小圆点(```banner__dot_selected```)
+![](assets/2020-02-03-11-48-45.png)
 
-在某些大型工程中，如果使用BEM命名法，还可能会增加一个前缀，来表示类名的用途，常见的前缀有：
+目前，最流行的预编译器有**LESS**和**SASS**，由于它们两者特别相似，因此仅学习一种即可（本课程学习LESS）
 
-- **l**: layout，表示这个样式是用于布局的
-- **c**: component，表示这个样式是一个组件，即一个功能区域
-- **u**: util，表示这个样式是一个通用的、工具性质的样式
-- **j**: javascript，表示这个样式没有实际意义，是专门提供给js获取元素使用的
+![](assets/2020-02-03-11-50-05.png)
+
+> less官网：http://lesscss.org/
+> less中文文档1（非官方）：http://lesscss.cn/
+> less中文文档2（非官方）：https://less.bootcss.com/
+> sass官网：https://sass-lang.com/
+> sass中文文档1（非官方）：https://www.sass.hk/
+> sass中文文档2（非官方）：https://sass.bootcss.com/
+
+## LESS的安装和使用
+
+从原理可知，要使用LESS，必须要安装LESS编译器
+
+LESS编译器是基于node开发的，可以通过npm下载安装
+
+```shell
+npm i -D less
+```
+
+安装好了less之后，它提供了一个CLI工具`lessc`，通过该工具即可完成编译
+
+```shell
+lessc less代码文件 编译后的文件
+```
+
+试一试:
+
+新建一个`index.less`文件，编写内容如下：
+
+```less
+// less代码
+@red: #f40;
+
+.redcolor {
+    color: @red;
+}
+```
+
+运行命令：
+
+```shell
+lessc index.less index.css
+```
+
+可以看到编译之后的代码：
+
+```css
+.redcolor {
+  color: #f40;
+}
+```
+
+## LESS的基本使用
+
+具体的使用见文档：https://less.bootcss.com/
+
+- 变量
+- 混合
+- 嵌套
+- 运算
+- 函数
+- 作用域
+- 注释
+- 导入
