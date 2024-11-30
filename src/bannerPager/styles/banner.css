@@ -1,0 +1,14 @@
+/* @import url("./other.css"); */
+
+/* css modules 全局样式类 */
+:global(.main) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}

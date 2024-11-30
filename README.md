@@ -1,125 +1,78 @@
-# 利用webpack拆分css {ignore}
+# css module {ignore}
 
-要拆分css，就必须把css当成像js那样的模块；要把css当成模块，就必须有一个构建工具（webpack），它具备合并代码的能力
+> 通过命名规范来限制类名太过死板，而css in js虽然足够灵活，但是书写不便。
+> css module 开辟一种全新的思路来解决类名冲突的问题
 
-而webpack本身只能读取css文件的内容、将其当作JS代码进行分析，因此，会导致错误
+## 思路
 
-于是，就必须有一个loader，能够将css代码转换为js代码
+css module 遵循以下思路解决类名冲突问题：
 
-## css-loader
+1. css的类名冲突往往发生在大型项目中
+2. 大型项目往往会使用构建工具（webpack等）搭建工程
+3. 构建工具允许将css样式切分为更加精细的模块
+4. 同JS的变量一样，每个css模块文件中难以出现冲突的类名，冲突的类名往往发生在不同的css模块文件中
+5. 只需要保证构建工具在合并样式代码后不会出现类名冲突即可
 
-css-loader的作用，就是将css代码转换为js代码
+![](assets/2020-01-31-13-54-37.png)
 
-它的处理原理极其简单：将css代码作为字符串导出
+## 实现原理
 
-例如：
+在webpack中，作为处理css的css-loader，它实现了css module的思想，要启用css module，需要将css-loader的配置```modules```设置为```true```。
+
+css-loader的实现方式如下：
+
+![](assets/2020-01-31-14-00-56.png)
+
+原理极其简单，开启了css module后，css-loader会将样式中的类名进行转换，转换为一个唯一的hash值。
+
+由于hash值是根据模块路径和类名生成的，因此，不同的css模块，哪怕具有相同的类名，转换后的hash值也不一样。
+
+![](assets/2020-01-31-14-04-11.png)
+
+## 如何应用样式
+
+css module带来了一个新的问题：源代码的类名和最终生成的类名是不一样的，而开发者只知道自己写的源代码中的类名，并不知道最终的类名是什么，那如何应用类名到元素上呢？
+
+为了解决这个问题，css-loader会导出原类名和最终类名的对应关系，该关系是通过一个对象描述的
+
+![](assets/2020-01-31-14-08-49.png)
+
+这样一来，我们就可以在js代码中获取到css模块导出的结果，从而应用类名了
+
+style-loader为了我们更加方便的应用类名，会去除掉其他信息，仅暴露对应关系
+
+## 其他操作
+
+### 全局类名
+
+某些类名是全局的、静态的，不需要进行转换，仅需要在类名位置使用一个特殊的语法即可：
 
 ```css
-.red{
-    color:"#f40";
+:global(.main){
+    ...
 }
 ```
 
-经过css-loader转换后变成js代码：
-
-```js
-module.exports = `.red{
-    color:"#f40";
-}`
-```
-
-> 上面的js代码是经过我简化后的，不代表真实的css-loader的转换后代码，css-loader转换后的代码会有些复杂，同时会导出更多的信息，但核心思想不变
-
-再例如：
+使用了global的类名不会进行转换，相反的，没有使用global的类名，表示默认使用了local
 
 ```css
-.red{
-    color:"#f40";
-    background:url("./bg.png")
+:local(.main){
+    ...
 }
 ```
 
-经过css-loader转换后变成js代码：
+使用了local的类名表示局部类名，是可能会造成冲突的类名，会被css module进行转换
 
-```js
-var import1 = require("./bg.png");
-module.exports = `.red{
-    color:"#f40";
-    background:url("${import1}")
-}`;
-```
+### 如何控制最终的类名
 
-这样一来，经过webpack的后续处理，会把依赖```./bg.png```添加到模块列表，然后再将代码转换为
+绝大部分情况下，我们都不需要控制最终的类名，因为控制它没有任何意义
 
-```js
-var import1 = __webpack_require__("./src/bg.png");
-module.exports = `.red{
-    color:"#f40";
-    background:url("${import1}")
-}`;
-```
+如果一定要控制最终的类名，需要配置css-loader的```localIdentName```
 
-再例如：
+## 其他注意事项
 
-```css
-@import "./reset.css";
-.red{
-    color:"#f40";
-    background:url("./bg.png")
-}
-```
-
-会转换为：
-
-```js
-var import1 = require("./reset.css");
-var import2 = require("./bg.png");
-module.exports = `${import1}
-.red{
-    color:"#f40";
-    background:url("${import2}")
-}`;
-```
-
-总结，css-loader干了什么：
-
-1. 将css文件的内容作为字符串导出
-2. 将css中的其他依赖作为require导入，以便webpack分析依赖
-
-## style-loader
-
-由于css-loader仅提供了将css转换为字符串导出的能力，剩余的事情要交给其他loader或plugin来处理
-
-style-loader可以将css-loader转换后的代码进一步处理，将css-loader导出的字符串加入到页面的style元素中
-
-例如：
-
-```css
-.red{
-    color:"#f40";
-}
-```
-
-经过css-loader转换后变成js代码：
-
-```js
-module.exports = `.red{
-    color:"#f40";
-}`
-```
-
-经过style-loader转换后变成：
-
-```js
-module.exports = `.red{
-    color:"#f40";
-}`
-var style = module.exports;
-var styleElem = document.createElement("style");
-styleElem.innerHTML = style;
-document.head.appendChild(styleElem);
-module.exports = {}
-```
-
-> 以上代码均为简化后的代码，并不代表真实的代码
-> style-loader有能力避免同一个样式的重复导入
+- css module往往配合构建工具使用
+- css module仅处理顶级类名，尽量不要书写嵌套的类名，也没有这个必要
+- css module仅处理类名，不处理其他选择器
+- css module还会处理id选择器，不过任何时候都没有使用id选择器的理由
+- 使用了css module后，只要能做到让类名望文知意即可，不需要遵守其他任何的命名规范
