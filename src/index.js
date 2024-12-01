@@ -1,11 +1,12 @@
-// css-loader
-// const css = require("./assets/banner.css");
+import style from "./assets/index.less";
 
-// const style = document.createElement("style");
-// style.innerHTML = css.toString();
-// document.head.appendChild(style);
+const app = document.createElement('div');
+app.className = style.app;
+app.innerHTML = '<h1>Hello, Less!!</h1>';
 
-// console.log(css.toString());
+const container = document.createElement('div');
+container.className = style.container;
+container.innerText = "Hello, Less!!";
+app.appendChild(container);
 
-// style-loader+css-loader
-require("./assets/banner.css");
+document.body.appendChild(app);
