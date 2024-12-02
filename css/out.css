@@ -1,0 +1,55 @@
+.main {
+  color: red;
+  font-weight: bold;
+}
+
+::-webkit-input-placeholder {
+  color: red;
+}
+
+::-moz-placeholder {
+  color: red;
+}
+
+:-ms-input-placeholder {
+  color: red;
+}
+
+::-ms-input-placeholder {
+  color: red;
+}
+
+::placeholder {
+  color: red;
+}
+
+a{
+  color: var(--lightColor);
+  background: var(--darkColor);
+
+  & .b {
+    color: green;
+  }
+}
+
+a > .b {
+    color: blue;
+  }
+
+a:hover {
+    color: #000;
+  }
+
+a:focus,a:hover
+
+:root {
+  color: var(--darkColor);
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: blue;
+}
+
+h1.active,h2.active,h3.active,h4.active,h5.active,h6.active {
+  font-weight: bold;
+}

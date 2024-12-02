@@ -5,22 +5,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./css/index.css">
+  <style>
+    :root {
+      --lightColor: #ddd;
+      --darkColor: #333;
+    }
+
+    div {
+      color: var(--lightColor);
+      background: var(--darkColor);
+    }
+  </style>
+  <link rel="stylesheet" href="./css/out.css">
 </head>
 
 <body>
-  <div class="boxOne">
+  <div>
     Lorem ipsum dolor sit.
   </div>
-  <div class="boxTwo">
-    Lorem ipsum dolor sit.
-  </div>
-  <div class="boxThree">
-    Lorem ipsum dolor sit.
-  </div>
-  <div class="boxFour">
-    Lorem ipsum dolor sit.
-  </div>
+  <a href="">
+    <div class="b">Lorem, ipsum.</div>
+  </a>
+  <h1>Lorem, ipsum.</h1>
 </body>
 
 </html>

@@ -1,14 +1,19 @@
 {
-  "name": "less-test",
-  "version": "1.0.0",
-  "description": "preCompiler_less",
-  "main": "index.js",
-  "devDependencies": {
-    "less": "^4.2.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "post_css",
+	"version": "1.0.0",
+	"description": "preCompiler_less",
+	"main": "index.js",
+	"scripts": {
+		"start": "postcss css/postcssApply.postcss -o css/postcssApply.css -w"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"postcss": "^7.0.26",
+		"postcss-apply": "^0.12.0",
+		"postcss-cli": "^7.1.0",
+		"postcss-color-function": "^4.1.0",
+		"postcss-preset-env": "^6.7.0",
+		"stylelint-config-standard": "^19.0.0"
+	}
 }
