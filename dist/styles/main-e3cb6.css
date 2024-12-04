@@ -1,13 +1,18 @@
-.context_container {
+.CeT68VGz-31UBEofg-5Rw {
   color: #ffffff12;
   font-weight: bold;
   font-size: 2em;
   width: 60vw;
   height: 35vw;
-  background: url(./partyAnimals.jpg);
+  background: url(/images/partyAnimals-ca708.jpg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   text-align: center;
   line-height: 35vw;
+}
+._33VuUXRDawswHlZWzuIlsB {
+  width: 50%;
+  height: 30vw;
+  background-color: #f40;
 }

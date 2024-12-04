@@ -1,11 +1,11 @@
-// css-loader
-// const css = require("./assets/banner.css");
+import style from "./assets/banner.css";
+import pagerStyle from "./assets/pager.css";
 
-// const style = document.createElement("style");
-// style.innerHTML = css.toString();
-// document.head.appendChild(style);
+const banner = document.createElement("div");
+banner.className = style.context_container;
 
-// console.log(css.toString());
+const otherContainer = document.createElement("div");
+otherContainer.className = pagerStyle.container;
 
-// style-loader+css-loader
-require("./assets/banner.css");
+document.body.appendChild(otherContainer);
+document.body.appendChild(banner);
